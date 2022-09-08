@@ -1,6 +1,6 @@
 import React from 'react';
 import { Route, BrowserRouter, Switch } from 'react-router-dom';
-import logo from './logo.svg';
+// import logo from './logo.svg';
 import './App.css';
 import Home from './pages/Home';
 
@@ -12,7 +12,7 @@ function App() {
           <Route path="/" exact component={ Home } />
         </Switch>
       </BrowserRouter>
-      <header className="App-header">
+      {/* <header className="App-header">
         <img src={ logo } className="App-logo" alt="logo" />
         <p>Edit src/App.js and save to reload.</p>
         <a
@@ -23,7 +23,7 @@ function App() {
         >
           Learn React
         </a>
-      </header>
+      </header> */}
     </div>
   );
 }
