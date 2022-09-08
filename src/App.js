@@ -9,11 +9,11 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Switch>
-          <Route path="/" exact component={Home} />
+          <Route path="/" exact component={ Home } />
         </Switch>
       </BrowserRouter>
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
+        <img src={ logo } className="App-logo" alt="logo" />
         <p>Edit src/App.js and save to reload.</p>
         <a
           className="App-link"
