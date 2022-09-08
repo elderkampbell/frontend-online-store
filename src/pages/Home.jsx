@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { getProductsFromCategoryAndQuery } from '../services/api';
+import ProductCard from '../components/ProductCard';
+import { getProductById } from '../services/api';
 
 export default class Home extends Component {
   state = {
@@ -8,18 +9,18 @@ export default class Home extends Component {
   };
 
   handleChange = ({ target: { value } }) => {
-    this.setState({ [userSearch]: value });
+    this.setState({ userSearch: value });
   };
 
   handleClick = async () => {
     const { userSearch } = this.state;
-    const ProductdList = await getProductsFromCategoryAndQuery({ userSearch });
+    const ProductdList = await getProductById(userSearch);
     this.setState({ searched: ProductdList.results });
-    console.log(this.searched);
   };
 
   render() {
     const { searched } = this.state;
+    console.log(searched);
     return (
       <div>
 
@@ -44,7 +45,15 @@ export default class Home extends Component {
           Digite algum termo de pesquisa ou escolha uma categoria.
         </p>
 
-        { searched.map(() => { searched })}
+        { searched.map((e) => (
+          <ProductCard
+            title={ e.title }
+            thumbnail={ e.thumbnail }
+            price={ e.price }
+            id={ e.id }
+            key={ e.id }
+          />
+        ))}
 
       </div>
     );

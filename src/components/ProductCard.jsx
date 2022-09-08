@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 
 export default class ProductCard extends Component {
   render() {
-    const { productName, image, price } = this.props;
+    const { title, thumbnail, price, id } = this.props;
     return (
-      <div data-testid="product">
-        <img src={ image } alt={ productName } />
-        <h5>{ productName }</h5>
+      <div data-testid="product" key={ id }>
+        <img src={ thumbnail } alt={ title } />
+        <h5>{ title }</h5>
         <h4>{ price }</h4>
       </div>
     );
@@ -15,7 +15,8 @@ export default class ProductCard extends Component {
 }
 
 ProductCard.propTypes = {
-  productName: PropTypes.string.isRequired,
-  image: PropTypes.string.isRequired,
-  price: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  thumbnail: PropTypes.string.isRequired,
+  price: PropTypes.number.isRequired,
+  id: PropTypes.string.isRequired,
 };
