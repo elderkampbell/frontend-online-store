@@ -45,15 +45,14 @@ export default class Home extends Component {
           Digite algum termo de pesquisa ou escolha uma categoria.
         </p>
 
-        { searched.map((e) => (
+        { searched.length !== 0 ? (searched.map((e) => (
           <ProductCard
             title={ e.title }
             thumbnail={ e.thumbnail }
             price={ e.price }
             id={ e.id }
             key={ e.id }
-          />
-        ))}
+          />))) : <p>Nenhum produto foi encontrado</p>}
 
       </div>
     );
