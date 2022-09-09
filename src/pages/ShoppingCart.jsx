@@ -4,7 +4,7 @@ import CartButton from '../components/CartButton';
 // Depois desenvolvo mais junto a um Header.jsx para ser add em todas as pgs
 // Ainda criarei componentes. Ass Erick
 
-class ShoppingCart extends Component {
+export default class ShoppingCart extends Component {
   render() {
     return (
       <main className="shoppingCart">
@@ -18,5 +18,3 @@ class ShoppingCart extends Component {
     );
   }
 }
-
-export default ShoppingCart;
