@@ -1,13 +1,19 @@
 import React, { Component } from 'react';
 import ProductCard from '../components/ProductCard';
-import { getProductById } from '../services/api';
+import { getProductById, getCategories } from '../services/api';
 
 export default class Home extends Component {
   state = {
     userSearch: '',
     searched: [],
+    produtos: [],
+    categories: [],
   };
 
+  componentDidMount() {
+    this.handleGetCategories();
+  }
+  
   handleChange = ({ target: { value } }) => {
     this.setState({ userSearch: value });
   };
@@ -18,10 +24,22 @@ export default class Home extends Component {
     this.setState({ searched: ProductdList.results });
   };
 
+  handleGetCategories = async () => {
+    const getCategs = await getCategories();
+    await this.setState({ categories: getCategs });
+  };
+
+  handleChangeCategories = ({ target }) => {
+    const { value } = target;
+    this.setState({
+      produtos: value,
+    });
+  };
+
   render() {
-    const { searched } = this.state;
-    console.log(searched);
+    const { produtos, categories, searched } = this.state;
     return (
+    <>
       <div>
 
         <label htmlFor="query-input">
@@ -53,8 +71,38 @@ export default class Home extends Component {
             id={ e.id }
             key={ e.id }
           />))) : <p>Nenhum produto foi encontrado</p>}
-
       </div>
+
+      <div>
+      
+        {produtos.length === 0 && (
+          <h2 data-testid="home-initial-message">
+            Digite algum termo de pesquisa ou escolha uma categoria.
+          </h2>
+        )}
+        <input
+          type="text"
+          onChange={ this.handleChangeCategories }
+        />
+        <div>
+          {categories.map(({ name, id }) => (
+            <div key={ id }>
+              <label
+                htmlFor={ id }
+                data-testid="category"
+              >
+                { name }
+                <input
+                  type="radio"
+                  id={ id }
+                  name="categories"
+                  value={ name }
+                />
+              </label>
+            </div>
+          ))}
+        </div>
+      </>      
     );
   }
 }
