@@ -6,14 +6,13 @@ export default class Home extends Component {
   state = {
     userSearch: '',
     searched: [],
-    produtos: [],
     categories: [],
   };
 
   componentDidMount() {
     this.handleGetCategories();
   }
-  
+
   handleChange = ({ target: { value } }) => {
     this.setState({ userSearch: value });
   };
@@ -29,69 +28,60 @@ export default class Home extends Component {
     await this.setState({ categories: getCategs });
   };
 
-  handleChangeCategories = ({ target }) => {
-    const { value } = target;
-    this.setState({
-      produtos: value,
-    });
-  };
+  // handleChangeCategories = ({ target }) => {
+  //   const { value } = target;
+  //   this.setState({
+  //     produtos: value,
+  //   });
+  // };
 
   render() {
-    const { produtos, categories, searched } = this.state;
+    const { categories, searched } = this.state;
     return (
-    <>
-      <div>
+      <>
+        <div>
+          <label htmlFor="query-input">
+            Buscar produtos, marcas e muito mais...
+            <input
+              type="text"
+              data-testid="query-input"
+              onChange={ this.handleChange }
+            />
 
-        <label htmlFor="query-input">
-          Buscar produtos, marcas e muito mais...
+            <button
+              type="button"
+              data-testid="query-button"
+              onClick={ this.handleClick }
+            >
+              Buscar
+            </button>
+          </label>
+
+          <p data-testid="home-initial-message">
+            Digite algum termo de pesquisa ou escolha uma categoria.
+          </p>
+
+          {searched.length !== 0 ? (searched.map((e) => (
+            <ProductCard
+              title={ e.title }
+              thumbnail={ e.thumbnail }
+              price={ e.price }
+              id={ e.id }
+              key={ e.id }
+            />))) : <p>Nenhum produto foi encontrado</p>}
+        </div>
+        <div>
           <input
             type="text"
-            data-testid="query-input"
-            onChange={ this.handleChange }
+            onChange={ this.handleChangeCategories }
           />
-
-          <button
-            type="button"
-            data-testid="query-button"
-            onClick={ this.handleClick }
-          >
-            Buscar
-          </button>
-        </label>
-
-        <p data-testid="home-initial-message">
-          Digite algum termo de pesquisa ou escolha uma categoria.
-        </p>
-
-        { searched.length !== 0 ? (searched.map((e) => (
-          <ProductCard
-            title={ e.title }
-            thumbnail={ e.thumbnail }
-            price={ e.price }
-            id={ e.id }
-            key={ e.id }
-          />))) : <p>Nenhum produto foi encontrado</p>}
-      </div>
-
-      <div>
-      
-        {produtos.length === 0 && (
-          <h2 data-testid="home-initial-message">
-            Digite algum termo de pesquisa ou escolha uma categoria.
-          </h2>
-        )}
-        <input
-          type="text"
-          onChange={ this.handleChangeCategories }
-        />
-        <div>
           {categories.map(({ name, id }) => (
             <div key={ id }>
               <label
                 htmlFor={ id }
                 data-testid="category"
               >
-                { name }
+                {name}
                 <input
                   type="radio"
                   id={ id }
@@ -102,7 +92,8 @@ export default class Home extends Component {
             </div>
           ))}
         </div>
-      </>      
+
+      </>
     );
   }
 }
