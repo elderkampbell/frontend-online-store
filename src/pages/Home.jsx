@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import ProductCard from '../components/ProductCard';
+import CartButton from '../components/CartButton';
 import { getProductById, getCategories } from '../services/api';
 
 export default class Home extends Component {
@@ -75,6 +76,7 @@ export default class Home extends Component {
               key={ e.id }
             />))) : <p>Nenhum produto foi encontrado</p>}
         </div>
+          <CartButton />
         <div>
           {/* <input
             type="text"
