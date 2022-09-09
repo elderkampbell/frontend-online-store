@@ -27,7 +27,7 @@ export default class Home extends Component {
 
   handleGetCategories = async () => {
     const getCategs = await getCategories();
-    await this.setState({ categories: getCategs });
+    this.setState({ categories: getCategs });
   };
 
   handleChangeCategories = async ({ target }) => {
@@ -76,7 +76,7 @@ export default class Home extends Component {
               key={ e.id }
             />))) : <p>Nenhum produto foi encontrado</p>}
         </div>
-          <CartButton />
+        <CartButton />
         <div>
           {/* <input
             type="text"
