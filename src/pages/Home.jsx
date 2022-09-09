@@ -7,6 +7,7 @@ export default class Home extends Component {
     userSearch: '',
     searched: [],
     categories: [],
+    radioCategories: '',
   };
 
   componentDidMount() {
@@ -28,15 +29,18 @@ export default class Home extends Component {
     await this.setState({ categories: getCategs });
   };
 
-  // handleChangeCategories = ({ target }) => {
-  //   const { value } = target;
-  //   this.setState({
-  //     produtos: value,
-  //   });
-  // };
+  handleChangeCategories = async ({ target }) => {
+    const { value } = target;
+    const ProductdList = await getProductById(value);
+    this.setState({
+      radioCategories: value,
+      searched: ProductdList.results,
+    });
+  };
 
   render() {
-    const { categories, searched } = this.state;
+    const { categories, searched, radioCategories } = this.state;
+    console.log(radioCategories, searched);
     return (
       <>
         <div>
@@ -67,14 +71,15 @@ export default class Home extends Component {
               thumbnail={ e.thumbnail }
               price={ e.price }
               id={ e.id }
+              radioCategories={ radioCategories }
               key={ e.id }
             />))) : <p>Nenhum produto foi encontrado</p>}
         </div>
         <div>
-          <input
+          {/* <input
             type="text"
             onChange={ this.handleChangeCategories }
-          />
+          /> */}
           {categories.map(({ name, id }) => (
             <div key={ id }>
               <label
@@ -87,6 +92,7 @@ export default class Home extends Component {
                   id={ id }
                   name="categories"
                   value={ name }
+                  onChange={ this.handleChangeCategories }
                 />
               </label>
             </div>
