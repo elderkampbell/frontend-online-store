@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 import ProductCard from '../components/ProductCard';
 import CartButton from '../components/CartButton';
-import { getProductById, getCategories } from '../services/api';
+import * as api from '../services/api';
+// import { getProductById, getCategories } from '../services/api';
+import addProduct from '../services/localStorage';
 
 export default class Home extends Component {
   state = {
     userSearch: '',
+    wasSearched: false,
     searched: [],
     categories: [],
     radioCategories: '',
@@ -21,27 +24,36 @@ export default class Home extends Component {
 
   handleClick = async () => {
     const { userSearch } = this.state;
-    const ProductdList = await getProductById(userSearch);
-    this.setState({ searched: ProductdList.results });
+    const ProductdList = await api.getProductById(userSearch);
+    this.setState({
+      searched: ProductdList.results,
+      wasSearched: true,
+    });
   };
 
   handleGetCategories = async () => {
-    const getCategs = await getCategories();
+    const getCategs = await api.getCategories();
     this.setState({ categories: getCategs });
   };
 
   handleChangeCategories = async ({ target }) => {
     const { value } = target;
-    const ProductdList = await getProductById(value);
+    const ProductdList = await api.getProductById(value);
     this.setState({
       radioCategories: value,
       searched: ProductdList.results,
     });
   };
 
+  handleClickAddToCart = (product) => {
+    this.setState({
+      isQuantity: false,
+    });
+    addProduct(product);
+  };
+
   render() {
-    const { categories, searched, radioCategories } = this.state;
-    console.log(radioCategories, searched);
+    const { categories, searched, radioCategories, isQuantity, wasSearched } = this.state;
     return (
       <>
         <div>
@@ -52,36 +64,38 @@ export default class Home extends Component {
               data-testid="query-input"
               onChange={ this.handleChange }
             />
-
-            <button
-              type="button"
-              data-testid="query-button"
-              onClick={ this.handleClick }
-            >
-              Buscar
-            </button>
           </label>
 
+          <button
+            type="button"
+            data-testid="query-button"
+            onClick={ this.handleClick }
+          >
+            Buscar
+          </button>
           <p data-testid="home-initial-message">
             Digite algum termo de pesquisa ou escolha uma categoria.
           </p>
+          <CartButton />
 
-          {searched.length !== 0 ? (searched.map((e) => (
-            <ProductCard
-              title={ e.title }
-              thumbnail={ e.thumbnail }
-              price={ e.price }
-              id={ e.id }
-              radioCategories={ radioCategories }
-              key={ e.id }
-            />))) : <p>Nenhum produto foi encontrado</p>}
+          { wasSearched
+          && searched.length === 0
+            ? <p>Nenhum produto foi encontrado</p>
+            : (
+              searched.map((e) => (
+                <ProductCard
+                  title={ e.title }
+                  thumbnail={ e.thumbnail }
+                  price={ e.price }
+                  id={ e.id }
+                  radioCategories={ radioCategories }
+                  key={ e.id }
+                  isQuantity={ isQuantity }
+                  onClick={ () => this.handleClickAddToCart(e) }
+                />))
+            ) }
         </div>
-        <CartButton />
         <div>
-          {/* <input
-            type="text"
-            onChange={ this.handleChangeCategories }
-          /> */}
           {categories.map(({ name, id }) => (
             <div key={ id }>
               <label
