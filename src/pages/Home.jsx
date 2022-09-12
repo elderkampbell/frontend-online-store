@@ -38,7 +38,7 @@ export default class Home extends Component {
 
   handleChangeCategories = async ({ target }) => {
     const { value } = target;
-    const ProductdList = await api.getProductById(value);
+    const ProductdList = await api.getProductsFromCategoryAndQuery(value);
     this.setState({
       radioCategories: value,
       searched: ProductdList.results,
@@ -60,6 +60,7 @@ export default class Home extends Component {
           <label htmlFor="query-input">
             Buscar produtos, marcas e muito mais...
             <input
+              id="query-input"
               type="text"
               data-testid="query-input"
               onChange={ this.handleChange }
@@ -106,7 +107,7 @@ export default class Home extends Component {
                 <input
                   type="radio"
                   id={ id }
-                  name="categories"
+                  name={ id }
                   value={ name }
                   onChange={ this.handleChangeCategories }
                 />

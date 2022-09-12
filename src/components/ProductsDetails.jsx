@@ -63,7 +63,7 @@ export default class ProductsDetails extends Component {
             Add Carrinho
           </button>
         </div>
-        { redirected && <Redirect to="/shopping/cart" /> }
+        { redirected && <Redirect to="/shopping-cart/" /> }
       </>
     );
   }

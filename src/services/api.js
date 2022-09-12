@@ -1,6 +1,7 @@
 export async function getCategories() {
   // Implemente aqui
   const URL = 'https://api.mercadolibre.com/sites/MLB/categories';
+  console.log("xablau");
   const response = await fetch(URL);
   const data = await response.json();
 

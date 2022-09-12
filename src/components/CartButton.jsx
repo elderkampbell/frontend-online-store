@@ -7,7 +7,7 @@ class CartButton extends Component {
     // const { onClick, increaseQuatity, decreaseQuatity } = this.props;
     return (
       <>
-        <Link data-testid="shopping-cart-button" to="/Shoppingcart">
+        <Link data-testid="shopping-cart-button" to="/shopping-cart/">
           {/* <div className="shopping-cart-button"> */}
           <img
             width="50px"

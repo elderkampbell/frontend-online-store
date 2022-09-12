@@ -17,8 +17,8 @@ export default class ShoppingCart extends Component {
     this.test();
   }
 
-  test = async () => {
-    const getItems = await JSON.parse(localStorage.getItem('product_items'));
+  test = () => {
+    const getItems = JSON.parse(localStorage.getItem('product_items'));
     if (getItems.length === 0) {
       this.setState({ empty: true });
     } else {
@@ -39,14 +39,6 @@ export default class ShoppingCart extends Component {
   handleClickQuantity = (id) => {
     const { products } = this.state;
     const countItems = products.filter((e) => e.id === id);
-    // const test = products.reduce((acc, curr) => {
-    //   let count = acc;
-    //   if (curr.id === id) {
-    //     count += 1;
-    //   }
-    //   return count;
-    // }, 0);
-    // console.log(test);
     return countItems.length;
   };
 
