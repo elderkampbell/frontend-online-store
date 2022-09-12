@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
 import { getProductDetailsById } from '../services/api';
+import addProduct from '../services/localStorage';
+import CartButton from './CartButton';
 
 export default class ProductsDetails extends Component {
   state = {
@@ -10,6 +12,7 @@ export default class ProductsDetails extends Component {
     price: '',
     id: '',
     redirected: false,
+    product: [],
   };
 
   componentDidMount() {
@@ -18,25 +21,31 @@ export default class ProductsDetails extends Component {
 
   handleProductDetails = async () => {
     const { match: { params: { id } } } = this.props;
-    const product = await getProductDetailsById(id);
-    this.setState({
-      title: product.title,
-      thumbnail: product.thumbnail,
-      price: product.price,
-      id: product.id,
-    });
+    const infoProduct = await getProductDetailsById(id);
+    console.log(infoProduct);
+    this.setState((prevState) => ({
+      title: infoProduct.title,
+      thumbnail: infoProduct.thumbnail,
+      price: infoProduct.price,
+      id: infoProduct.id,
+      product: [...prevState.product, infoProduct],
+    }));
   };
 
-  handleClick = () => [
+  handleClick = () => {
+    const { product } = this.state;
+    addProduct(product[0]);
+    // console.log(product[0]);
     this.setState({
       redirected: true,
-    }),
-  ];
+    });
+  };
 
   render() {
     const { title, thumbnail, price, id, redirected } = this.state;
     return (
       <>
+        <CartButton />
         <div>
           <p>{ id }</p>
           <h2 data-testid="product-detail-name">{ title }</h2>
@@ -47,11 +56,11 @@ export default class ProductsDetails extends Component {
             alt={ title }
           />
           <button
-            data-testid="shopping-cart-button"
+            data-testid="product-detail-add-to-cart"
             type="button"
             onClick={ this.handleClick }
           >
-            carrinho de compras
+            Add Carrinho
           </button>
         </div>
         { redirected && <Redirect to="/shopping/cart" /> }
