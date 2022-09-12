@@ -29,12 +29,12 @@ export default class ProductCard extends Component {
               <Link
                 key={ id }
                 data-testid="product-detail-link"
-                to={ `/product/details/${id}` }
+                to={ `/product-details/${id}` }
               >
                 <img src={ thumbnail } alt={ title } />
                 <h5>{ title }</h5>
+                <h4>{ price }</h4>
               </Link>
-              <h4>{ price }</h4>
               <button
                 data-testid="product-add-to-cart"
                 type="button"
