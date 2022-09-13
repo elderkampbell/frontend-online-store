@@ -41,27 +41,26 @@ export default class ProductsDetails extends Component {
   render() {
     const { title, thumbnail, price, id } = this.state;
     return (
-      <>
-        <div>
-          <CartButton />
-          <p>{ id }</p>
-          <h2 data-testid="product-detail-name">{ title }</h2>
-          <h3 data-testid="product-detail-price">{ price }</h3>
-          <img
-            data-testid="product-detail-image"
-            src={ thumbnail }
-            alt={ title }
-          />
-          <button
-            data-testid="product-detail-add-to-cart"
-            type="button"
-            onClick={ this.handleClick }
-          >
-            Add Carrinho
-          </button>
-        </div>
-        {/* { redirected && <Redirect to="/shopping-cart/" /> } */}
-      </>
+
+      <div>
+        <CartButton />
+        <p>{ id }</p>
+        <h2 data-testid="product-detail-name">{ title }</h2>
+        <h3 data-testid="product-detail-price">{ price }</h3>
+        <img
+          data-testid="product-detail-image"
+          src={ thumbnail }
+          alt={ title }
+        />
+        <button
+          data-testid="product-detail-add-to-cart"
+          type="button"
+          onClick={ this.handleClick }
+        >
+          Add Carrinho
+        </button>
+      </div>
+
     );
   }
 }

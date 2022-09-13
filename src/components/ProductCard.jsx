@@ -3,15 +3,27 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 export default class ProductCard extends Component {
+  // increaseQuatityClick = () => {
+  //   this.setState((prevState) => ({
+  //     quantity: Number(prevState.quantity) + 1,
+  //   }));
+  // };
+
+  // decreaseQuatityClick = () => {
+  //   this.setState((prevState) => ({
+  //     quantity: Number(prevState.quantity) - 1,
+  //   }));
+  // };
+
   render() {
-    const { isQuantity, quantity } = this.props;
+    const { isQuantity, quantity, onClickRemove } = this.props;
     const { title, thumbnail,
       price, id, onClick,
-      // decreaseQuatity, increaseQuatity
+      decreaseQuatity,
+      increaseQuatity,
     } = this.props;
-    // const { quantity } = this.state;
     return (
-      <>
+      <div>
         {isQuantity
           ? (
             <div data-testid="product">
@@ -21,10 +33,31 @@ export default class ProductCard extends Component {
                 {`quantidade: ${quantity}`}
               </p>
               <h4>{ price }</h4>
+              <button
+                data-testid="remove-product"
+                type="button"
+                onClick={ onClickRemove }
+              >
+                Remover
+              </button>
+              <button
+                data-testid="product-increase-quantity"
+                type="button"
+                onClick={ increaseQuatity }
+              >
+                +
+              </button>
+              <button
+                data-testid="product-decrease-quantity"
+                type="button"
+                onClick={ decreaseQuatity }
+              >
+                -
+              </button>
+
             </div>
           )
           : (
-
             <div data-testid="product">
               <Link
                 key={ id }
@@ -43,27 +76,8 @@ export default class ProductCard extends Component {
                 Adicionar ao Carrinho
               </button>
             </div>
-
           )}
-        {/* <button
-          data-testid="product-increase-quantity"
-          type="button"
-        >
-          +
-        </button>
-        <button
-          data-testid="product-decrease-quantity"
-          type="button"
-        >
-          -
-        </button>
-        <button
-          data-testid="remove-product"
-          type="button"
-        >
-          Remover
-        </button> */}
-      </>
+      </div>
     );
   }
 }
@@ -76,7 +90,7 @@ ProductCard.propTypes = {
   onClick: PropTypes.func.isRequired,
   quantity: PropTypes.number.isRequired,
   isQuantity: PropTypes.bool.isRequired,
-  // products: PropTypes.arrayOf.isRequired,
-  // decreaseQuatity: PropTypes.func.isRequired,
-  // increaseQuatity: PropTypes.func.isRequired,
+  onClickRemove: PropTypes.func.isRequired,
+  decreaseQuatity: PropTypes.func.isRequired,
+  increaseQuatity: PropTypes.func.isRequired,
 };
