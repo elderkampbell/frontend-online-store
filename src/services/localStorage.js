@@ -14,4 +14,5 @@ const addProduct = (product) => {
     saveProductItems([...ProductItems, product]);
   }
 };
+
 export default addProduct;
