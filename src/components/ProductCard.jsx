@@ -19,7 +19,8 @@ export default class ProductCard extends Component {
     const { isQuantity, quantity, onClickRemove } = this.props;
     const { title, thumbnail,
       price, id, onClick,
-      // decreaseQuatity, increaseQuatity,
+      decreaseQuatity,
+      increaseQuatity,
     } = this.props;
     return (
       <div>
@@ -39,7 +40,7 @@ export default class ProductCard extends Component {
               >
                 Remover
               </button>
-              {/* <button
+              <button
                 data-testid="product-increase-quantity"
                 type="button"
                 onClick={ increaseQuatity }
@@ -52,7 +53,7 @@ export default class ProductCard extends Component {
                 onClick={ decreaseQuatity }
               >
                 -
-              </button> */}
+              </button>
 
             </div>
           )
@@ -90,6 +91,6 @@ ProductCard.propTypes = {
   quantity: PropTypes.number.isRequired,
   isQuantity: PropTypes.bool.isRequired,
   onClickRemove: PropTypes.func.isRequired,
-  // decreaseQuatity: PropTypes.func.isRequired,
-  // increaseQuatity: PropTypes.func.isRequired,
+  decreaseQuatity: PropTypes.func.isRequired,
+  increaseQuatity: PropTypes.func.isRequired,
 };

@@ -43,17 +43,20 @@ export default class ShoppingCart extends Component {
     }
   };
 
-  // increaseQuatityClick = () => {
-  //   this.setState((prevState) => ({
-  //     quantity: Number(prevState.quantity) + 1,
-  //   }));
-  // };
+  increaseQuatityClick = (product) => {
+    const { products } = this.state;
+    this.setState({
+      products: [...products, product],
+    });
+  };
 
-  // decreaseQuatityClick = () => {
-  //   this.setState((prevState) => ({
-  //     quantity: Number(prevState.quantity) - 1,
-  //   }));
-  // };
+  decreaseQuatityClick = () => {
+    const { products } = this.state;
+    const newArr2 = products.filter((e) => e.id !== id);
+    this.setState({
+      products: [...newArr2],
+    });
+  };
 
   handleRemove = (id) => {
     const { productsFiltered, products } = this.state;
@@ -88,8 +91,8 @@ export default class ShoppingCart extends Component {
                   quantity={ this.handleClickQuantity(product.id) }
                   isQuantity={ isQuantity }
                   onClickRemove={ () => this.handleRemove(product.id) }
-                  // increaseQuatity={ this.increaseQuatityClick }
-                  // decreaseQuatity={ this.decreaseQuatityClick }
+                  increaseQuatity={ () => this.increaseQuatityClick(product) }
+                  decreaseQuatity={ () => this.decreaseQuatityClick(product.id) }
                 />
               ))}
 
