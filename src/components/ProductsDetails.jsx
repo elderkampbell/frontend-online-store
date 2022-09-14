@@ -13,10 +13,18 @@ export default class ProductsDetails extends Component {
     id: '',
     // redirected: false,
     product: [],
+    email: '',
+    rating: '',
+    text: '',
+    reviews: [],
+    validateForm: false,
   };
 
   componentDidMount() {
+    const { match: { params: { id } } } = this.props;
     this.handleProductDetails();
+    const savedReviews = JSON.parse(localStorage.getItem(id));
+    if (savedReviews !== null) { this.setState({ reviews: savedReviews }); }
   }
 
   handleProductDetails = async () => {
@@ -38,8 +46,46 @@ export default class ProductsDetails extends Component {
     // console.log(product[0]);
   };
 
+  handleChange = ({ target }) => {
+    this.setState({ [target.name]: target.value });
+  };
+
+  handleChangeRating = ({ target }) => {
+    this.setState({ rating: target.value });
+  };
+
+  saveReview = (id) => {
+    const { reviews } = this.state;
+    localStorage.setItem(id, JSON.stringify(reviews));
+  };
+
+  validateForm = ({ id }) => {
+    const { email, rating, text, reviews } = this.state;
+    const fullForm = [...reviews, { email, rating, text }];
+    const cleanForm = { email: '', rating: '', text: '' };
+
+    if (email.length && rating.length <= 0) {
+      this.setState({ validateForm: true });
+    } else {
+      this.setState(
+        { validateForm: false, reviews: fullForm },
+        () => this.saveReview(id),
+        this.setState(cleanForm),
+      );
+    }
+  };
+
   render() {
-    const { title, thumbnail, price, id } = this.state;
+    const { title,
+      thumbnail,
+      price,
+      id,
+      email,
+      text,
+      reviews,
+      validateForm,
+    } = this.state;
+
     return (
 
       <div>
@@ -59,6 +105,98 @@ export default class ProductsDetails extends Component {
         >
           Add Carrinho
         </button>
+
+        <form>
+          <h1>Avaliações</h1>
+          <input
+            name="email"
+            value={ email }
+            type="email"
+            data-testid="product-detail-email"
+            placeholder="Email"
+            required
+            onChange={ this.handleChange }
+          />
+          <span>
+            <label htmlFor="rating-5">
+              5
+              <input
+                name="rating"
+                type="radio"
+                value="5"
+                data-testid="5-rating"
+                onChange={ this.handleChangeRating }
+              />
+            </label>
+
+            <label htmlFor="4-rating">
+              4
+              <input
+                name="rating"
+                type="radio"
+                value="4"
+                data-testid="4-rating"
+                onChange={ this.handleChangeRating }
+              />
+            </label>
+
+            <label htmlFor="3-rating">
+              3
+              <input
+                name="rating"
+                type="radio"
+                value="3"
+                data-testid="3-rating"
+                onChange={ this.handleChangeRating }
+              />
+            </label>
+
+            <label htmlFor="2-rating">
+              2
+              <input
+                name="rating"
+                type="radio"
+                value="2"
+                data-testid="2-rating"
+                onChange={ this.handleChangeRating }
+              />
+            </label>
+
+            <label htmlFor="1-rating">
+              1
+              <input
+                name="rating"
+                type="radio"
+                value="1"
+                data-testid="1-rating"
+                onChange={ this.handleChangeRating }
+              />
+            </label>
+          </span>
+          <textarea
+            name="text"
+            value={ text }
+            type="text"
+            placeholder="conte-nos sobre sua experiência! (Opcional)"
+            data-testid="product-detail-evaluation"
+            onChange={ this.handleChange }
+          />
+          <input
+            type="submit"
+            value="Enviar"
+            data-testid="submit-review-btn"
+            onClick={ () => this.validateForm(id) }
+          />
+          {validateForm && <alert data-testid="error-msg">Campos inválidos</alert>}
+        </form>
+
+        {reviews ? reviews.map((review) => (
+          <div key={ review.email }>
+            <p data-testid="review-card-email">{review.email}</p>
+            <p data-testid="review-card-rating">{review.rating}</p>
+            <p data-testid="review-card-evaluation">{review.text}</p>
+          </div>
+        )) : null}
       </div>
 
     );
