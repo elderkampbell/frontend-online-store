@@ -12,6 +12,7 @@ export default class Home extends Component {
     searched: [],
     categories: [],
     radioCategories: '',
+    // sendToCart: [],
   };
 
   componentDidMount() {
