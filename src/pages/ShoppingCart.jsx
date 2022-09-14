@@ -9,23 +9,34 @@ import ProductCard from '../components/ProductCard';
 export default class ShoppingCart extends Component {
   state = {
     empty: false,
-    products: [],
+    // products: [],
     productsFiltered: [],
     isQuantity: false,
   };
 
   componentDidMount() {
-    this.test();
+    this.cartControl();
   }
 
-  handleClickQuantity = (id) => {
-    const { products } = this.state;
-    const countItems = products.filter((e) => e.id === id);
-    return countItems.length;
+  // handleClickQuantity = (id) => {
+  //   // const { products } = this.state;
+  //   const getItems = JSON.parse(localStorage.getItem('product_items'));
+  //   const countItems = getItems.filter((e) => e.id === id);
+  //   return countItems.length;
+  // };
+
+  handleRemove = (id) => {
+    const { productsFiltered } = this.state;
+    // const newArr = productsFiltered.filter((e) => e.id !== id);
+    const newArr2 = productsFiltered.filter((e) => (e.id !== id ? e : null));
+    localStorage.setItem('product_items', JSON.stringify(newArr2));
+    this.cartControl();
   };
 
-  test = () => {
-    const getItems = JSON.parse(localStorage.getItem('product_items'));
+  cartControl = () => {
+    const getItems = JSON.parse(localStorage.getItem('product_items')) || [];
+    console.log(getItems);
+
     if (getItems.length === 0) {
       this.setState({ empty: true });
     } else {
@@ -36,38 +47,33 @@ export default class ShoppingCart extends Component {
         return !duplicatedItem;
       });
       this.setState({
-        products: [...getItems],
+        // products: [...getItems],
         productsFiltered: [...newArr],
         isQuantity: true,
       });
     }
   };
 
-  increaseQuatityClick = (product) => {
-    const { products } = this.state;
-    this.setState({
-      products: [...products, product],
-    });
-  };
+  // increaseQuatityClick = (product) => {
+  //   const { products } = this.state;
+  //   this.setState({
+  //     products: [...products, product],
+  //   });
+  //   addProduct(product);
+  //   this.cartControl();
+  // };
 
-  decreaseQuatityClick = () => {
-    const { products } = this.state;
-    const newArr2 = products.filter((e) => e.id !== id);
-    this.setState({
-      products: [...newArr2],
-    });
-  };
+  // decreaseQuatityClick = (id) => {
+  //   const { products, productsFiltered } = this.state;
+  //   console.log(productsFiltered);
+  //   const Arr = products.filter((e) => e.id !== id);
+  //   const arrToModify = products.filter((e) => e.id === id);
+  //   const modifiedArr = arrToModify.filter((_e, i) => i < arrToModify.length - 1);
 
-  handleRemove = (id) => {
-    const { productsFiltered, products } = this.state;
-    const newArr = productsFiltered.filter((e) => e.id !== id);
-    const newArr2 = products.filter((e) => e.id !== id);
-    // addProduct(newArr);
-    this.setState({
-      productsFiltered: [...newArr],
-      products: [...newArr2],
-    });
-  };
+  //   const newArr = [...Arr, ...modifiedArr];
+  //   localStorage.setItem('product_items', JSON.stringify(newArr));
+  //   this.cartControl();
+  // };
 
   render() {
     const { productsFiltered, isQuantity, empty } = this.state;
@@ -88,11 +94,11 @@ export default class ShoppingCart extends Component {
                   thumbnail={ product.thumbnail }
                   price={ product.price }
                   id={ product.id }
-                  quantity={ this.handleClickQuantity(product.id) }
+                  // quantity={ this.handleClickQuantity(product.id) }
                   isQuantity={ isQuantity }
                   onClickRemove={ () => this.handleRemove(product.id) }
-                  increaseQuatity={ () => this.increaseQuatityClick(product) }
-                  decreaseQuatity={ () => this.decreaseQuatityClick(product.id) }
+                  // increaseQuatity={ () => this.increaseQuatityClick(product) }
+                  // decreaseQuatity={ this.decreaseQuatityClick }
                 />
               ))}
 
